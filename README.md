@@ -1,4 +1,4 @@
-# ecommerce_product_search
+# productsearch
 
 FIXME
 

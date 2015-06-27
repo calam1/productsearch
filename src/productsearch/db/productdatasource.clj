@@ -19,7 +19,7 @@
   (let [conn (mg/connect {:host "ds031751.mongolab.com" :port 31751})
         db (mg/get-db conn "product")
         u "clam"
-        p (.toCharArray "password")
+        p (.toCharArray "clampwd")
         coll "apple"
         auth (mg/authenticate db u p)]
     (let [data (mc/find-maps db coll {:id (parse-int id)})]
@@ -31,7 +31,7 @@
   (let [conn (mg/connect {:host "ds031751.mongolab.com" :port 31751})
         db (mg/get-db conn "product")
         u "clam"
-        p (.toCharArray "password")
+        p (.toCharArray "clampwd")
         coll "apple"
         auth (mg/authenticate db u p)]
     (let [data (mc/count db coll)]
@@ -43,10 +43,10 @@
   (let [conn (mg/connect {:host "ds031751.mongolab.com" :port 31751})
         db (mg/get-db conn "product")
         u "clam"
-        p (.toCharArray "password")
+        p (.toCharArray "clampwd")
         coll "apple"
         auth (mg/authenticate db u p)]
-    (let [data (mc/find-maps db coll {:title {$regex query $options "i"}, :variants {$elemMatch {:title "Green"}}})]
+    (let [data (mc/find-maps db coll {:title {$regex query $options "i"}, :variants {$elemMatch {:title {$regex type $options "i"}}}})]
 ;      (println data)
       (json/write-str data))))
 

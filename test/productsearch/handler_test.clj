@@ -1,7 +1,7 @@
-(ns ecommerce-product-search.handler-test
+(ns productsearch.handler-test
   (:require [clojure.test :refer :all]
             [ring.mock.request :as mock]
-            [ecommerce-product-search.handler :refer :all]))
+            [productsearch.handler :refer :all]))
 
 (deftest test-app
   (testing "main route"

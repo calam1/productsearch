@@ -6,20 +6,33 @@
 
 (defresource findProductById
   [id]
-  :available-media-types ["text/plain"]
-  ;:handle-ok (ds/findById id)
-  :handle-ok (fn [_] (format "The product id we are searching on is %s" id))
-  )
+  :available-media-types ["application/json"]
+  :handle-ok (ds/findById id))
 
-(defresource findCollectionCount
-  [collection]
+(defresource getCount
+  []
   :available-media-types ["text/plain"]
-  :handle-ok (fn [_] (format "You are getting the count of products of the %s" collection)))
+  :handle-ok (ds/getCount))
+
+(defresource searchProducts
+  []
+  :available-media-types ["text/plain"]
+  :exists? (fn [ctx]
+             (if-let [parameters
+                      (get-in ctx [:request :params])]
+                                      {:parameters parameters}))
+  ;:handle-ok  (fn [ctx] (let [pm (get ctx :parameters)] (println (str (pm "type") (pm "query")))))
+  :handle-ok  (fn [ctx] (let [paramValues (get ctx :parameters)]
+                         (let [query (paramValues "query")
+                               type (paramValues "type")]
+                           (ds/findByAttributes query type))))
+  :handle-not-found (fn [ctx] (format "invalid data %s" (get ctx :parameters))))
 
 (defroutes app-routes
   (ANY "/" [] "Hello World")
-  (ANY "/shop/product/:id" [id] (findProductById id))
-  (ANY "/shop/products/count/:collection" [collection] (findCollectionCount collection)))
+  (ANY "/admin/product/:id" [id] (findProductById id))
+  (ANY "/admin/product/all/count" [] (getCount))
+  (ANY "/shop/search" [] (searchProducts)))
 
 (def app
   (-> app-routes

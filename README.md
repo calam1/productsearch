@@ -1,6 +1,7 @@
 # productsearch
 
-FIXME
+example url for product search
+http://localhost:3000/shop/search?query=ipod%20nano&type=red
 
 ## Prerequisites
 
